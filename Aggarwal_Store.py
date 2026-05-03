@@ -1,13 +1,11 @@
 import streamlit as st
-import requests
 
-# Page Config for a premium retail feel
+# 1. Page Config
 st.set_page_config(layout="centered", page_title="Blinkit | Phase 3 Delivery")
 
-# Custom Branding CSS (Marketing Spec)
+# 2. Custom Branding CSS
 st.markdown("""
 <style>
-    /* Blinkit Yellow Header */
     .header-box {
         background-color: #F7D106;
         padding: 10px;
@@ -17,7 +15,6 @@ st.markdown("""
         color: black;
         margin-bottom: 20px;
     }
-    /* Product Card Styling */
     .stButton>button {
         background-color: #0c831f !important;
         color: white !important;
@@ -37,15 +34,7 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-# 1. Background Image Health Check (Invisible to User)
-def is_img_live(url):
-    try:
-        return requests.get(url, timeout=1).status_code == 200
-    except:
-        return False
-
-# 2. Marketing-Approved Product Catalog (Alternative stable links)
-# Samosa removed; replaced with high-velocity grocery items
+# 3. Product Catalog
 catalog = [
     {
         "name": "Haldiram's Bhujia Sev (400g)",
@@ -64,25 +53,24 @@ catalog = [
     }
 ]
 
-# 3. App Header
+# 4. App Header
 st.markdown('<div class="header-box">⚡ Delivery in 10 minutes to Phase 3</div>', unsafe_allow_html=True)
 st.text_input("Search for groceries...", placeholder="Search 'Biscuits'", label_visibility="collapsed")
 
-# 4. Product Grid
+# 5. Product Grid (Bulletproof Layout)
 st.subheader("Trending Today")
-cols = st.columns(2) # 2-column grid is better for mobile UX
+cols = st.columns(2)
 
 for idx, item in enumerate(catalog):
-    # Marketing Safeguard: Only show product if image is working
-    if is_img_live(item["url"]):
-        with cols[idx % 2]:
-            st.markdown(f'<span class="discount-badge">{item["off"]}</span>', unsafe_allow_html=True)
-            st.image(item["url"], use_container_width=True)
-            st.write(f"**{item['name']}**")
-            st.write(f"₹{item['price']}  ~~₹{item['mrp']}~~")
-            st.button("ADD", key=f"add_{idx}", use_container_width=True)
+    # Notice the strict indentation here under 'with cols'
+    with cols[idx % 2]:
+        st.markdown(f'<span class="discount-badge">{item["off"]}</span>', unsafe_allow_html=True)
+        st.image(item["url"], use_container_width=True)
+        st.write(f"**{item['name']}**")
+        st.write(f"₹{item['price']}  ~~₹{item['mrp']}~~")
+        st.button("ADD", key=f"add_{idx}", use_container_width=True)
 
-# 5. Footer CTA
+# 6. Footer CTA
 st.divider()
 if st.button("🛒 View Cart & Checkout", use_container_width=True, type="primary"):
     st.balloons()
