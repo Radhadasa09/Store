@@ -5,8 +5,8 @@ import pandas as pd
 st.set_page_config(
     page_title="Aggarwal Store",
     page_icon="🏪",
-    layout="centered", # Better for mobile-first feel
-    initial_sidebar_state="collapsed" # Contracts the sidebar
+    layout="centered", 
+    initial_sidebar_state="collapsed" 
 )
 
 # ==========================================
@@ -105,7 +105,8 @@ def add_to_cart(item):
 #   STABLE IMAGE DATA (Unsplash)
 # ==========================================
 categories = {
-    "Grocery": "https://images.unsplash.com/photo-1542838132-92c53300491e?w=400",
+    # UPDATED: Supermarket aisle with packaged goods, no vegetables!
+    "Grocery": "https://images.unsplash.com/photo-1578916171728-46686eac8d58?w=400",
     "Baby Care": "https://images.unsplash.com/photo-1555252333-9f8e92e65df9?w=400",
     "Stationery": "https://images.unsplash.com/photo-1516962215378-7fa2e137ae93?w=400",
     "Ice Creams": "https://images.unsplash.com/photo-1497034825429-c343d7c6a68f?w=400"
@@ -250,4 +251,46 @@ if app_mode == "📱 Storefront":
 elif app_mode == "💻 Dashboard":
     st.title("🏪 Owner Dashboard")
     st.info("The dashboard is active. Switch back to 'Storefront' in the sidebar to view the customer app.")
-    # (Dashboard logic remains the same as previously built)
+    
+    # --- Owner Dashboard Logic ---
+    st.markdown("### Today's Overview")
+    col1, col2, col3, col4 = st.columns(4)
+    with col1: st.metric(label="Today's Sales", value="₹4,250", delta="+₹450")
+    with col2: st.metric(label="Pending Deliveries", value="4", delta="-1")
+    with col3: st.metric(label="Outstanding Khata", value="₹12,500", delta="-₹200", delta_color="inverse")
+    
+    if 'wallet_balance' not in st.session_state:
+        st.session_state.wallet_balance = 425.50
+        
+    with col4: st.metric(label="Platform Wallet", value=f"₹{st.session_state.wallet_balance:.2f}")
+
+    if st.session_state.wallet_balance < 500:
+        st.error(f"⚠️ **Low Wallet Balance**: Please recharge your platform wallet to keep accepting Home Delivery orders.")
+
+    tab1, tab2, tab3 = st.tabs(["📦 Active Orders", "📖 Khata Ledger", "💳 Wallet & Billing"])
+
+    with tab1:
+        st.subheader("Live Delivery Orders")
+        orders = pd.DataFrame({
+            "Order ID": ["#1042", "#1043", "#1044"],
+            "Customer": ["Rahul M.", "Priya S.", "Amit K."],
+            "Amount": ["₹280", "₹150", "₹320"],
+            "Status": ["Packing", "Ready", "Out for Delivery"]
+        })
+        st.dataframe(orders, use_container_width=True, hide_index=True)
+
+    with tab2:
+        st.subheader("Digital Khata (Credit Customers)")
+        khata_data = pd.DataFrame({
+            "Customer": ["Vikram Singh", "Neha Gupta"],
+            "Outstanding": ["₹4,500", "₹1,200"],
+            "Last Paid": ["12 Days Ago", "5 Days Ago"]
+        })
+        st.dataframe(khata_data, use_container_width=True, hide_index=True)
+
+    with tab3:
+        st.subheader("Platform Wallet History")
+        st.info("**Pricing Tier Active:** 3% fee on Home Deliveries | 1% fee on Khata settlements.")
+        if st.button("Simulate ₹1000 Recharge", type="primary"):
+            st.session_state.wallet_balance += 1000
+            st.rerun()
