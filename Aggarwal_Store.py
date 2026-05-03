@@ -3,78 +3,97 @@ import pandas as pd
 
 # --- Page Configuration ---
 st.set_page_config(
-    page_title="Aggarwal Store",
-    page_icon="🛍️", # Removed the 24h store emoji
+    page_title="Aggarwal Store | Premium",
+    page_icon="🛍️",
     layout="centered", 
     initial_sidebar_state="collapsed" 
 )
 
 # ==========================================
-#   CLEAN MOBILE-FIRST UI/UX CSS
+#   PREMIUM UX/UI CSS (Startup Grade)
 # ==========================================
 st.markdown("""
     <style>
-    /* Clean, ultra-light grey background (Blinkit/Zepto style) */
-    [data-testid="stAppViewContainer"] { 
-        background-color: #f4f6f8;
-    }
+    /* Import Premium Startup Font */
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
     
-    /* Top Banner Styling */
+    * { font-family: 'Inter', sans-serif !important; }
+    
+    /* Clean, ultra-light grey background */
+    [data-testid="stAppViewContainer"] { background-color: #F9FAFB; }
+    
+    /* Premium Gradient Top Banner */
     .top-banner {
-        background: linear-gradient(135deg, #8b0000 0%, #b71c1c 100%);
+        background: linear-gradient(135deg, #7f1d1d 0%, #b91c1c 100%);
         color: white;
-        padding: 25px 20px;
-        border-radius: 12px;
+        padding: 30px 20px;
+        border-radius: 20px;
         text-align: center;
-        margin-bottom: 20px;
-        box-shadow: 0 4px 12px rgba(139, 0, 0, 0.2);
+        margin-bottom: 25px;
+        box-shadow: 0 10px 25px rgba(185, 28, 28, 0.2);
     }
-    .top-banner h1 { color: white; font-weight: 800; margin: 0; font-size: 2.2em; letter-spacing: -0.5px; }
-    .top-banner p { margin: 8px 0 0 0; font-size: 1.05em; opacity: 0.95; font-weight: 500; }
+    .top-banner h1 { color: white; font-weight: 800; margin: 0; font-size: 2.4em; letter-spacing: -1px; }
+    .top-banner p { margin: 6px 0 0 0; font-size: 1.1em; opacity: 0.9; font-weight: 500; }
     
-    /* Clean Solid White Cards */
-    .cat-card, .product-card, .stContainer > div {
+    /* Apple-Style Soft Cards */
+    .cat-card, .product-card, div[data-testid="stVerticalBlock"] > div > div {
         background: #ffffff !important;
-        border-radius: 12px;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.04);
-        border: 1px solid #f0f0f0;
+        border-radius: 16px;
+        box-shadow: 0 8px 24px rgba(0,0,0,0.04) !important;
+        border: none !important;
     }
     
-    .cat-card { padding: 10px; text-align: center; margin-bottom: 10px; transition: transform 0.1s; }
-    .cat-card:active { transform: scale(0.98); }
-    .cat-img { width: 100%; height: 120px; object-fit: cover; border-radius: 8px; }
+    /* Category Grid Styling */
+    .cat-card { padding: 8px; text-align: center; margin-bottom: 12px; transition: transform 0.2s ease; cursor: pointer; }
+    .cat-card:active { transform: scale(0.96); }
+    .cat-img { width: 100%; height: 130px; object-fit: cover; border-radius: 12px; }
+    .cat-title { margin: 12px 0 6px 0; color: #111827; font-weight: 700; font-size: 1.05em; }
     
-    .product-card {
-        padding: 15px; text-align: center; margin-bottom: 15px; position: relative;
-    }
-    .product-image { height: 110px; object-fit: contain; margin-bottom: 12px; width: 100%; }
+    /* Product Card Styling */
+    .product-card { padding: 18px; text-align: center; margin-bottom: 20px; position: relative; }
+    .product-image { height: 130px; object-fit: contain; margin-bottom: 15px; width: 100%; transition: transform 0.3s ease; }
+    .product-card:hover .product-image { transform: scale(1.05); }
     
-    /* Pricing & MRP Styles */
-    .price-text { font-weight: 800; color: #111; font-size: 1.3em; margin: 5px 0 0 0; }
-    .mrp-text { font-weight: 500; color: #888; font-size: 0.75em; text-decoration: line-through; margin-left: 6px; }
+    /* Pricing & Badges */
+    .price-text { font-weight: 800; color: #111827; font-size: 1.4em; margin: 5px 0 0 0; }
+    .mrp-text { font-weight: 500; color: #9CA3AF; font-size: 0.75em; text-decoration: line-through; margin-left: 6px; }
     .discount-badge {
-        position: absolute; top: 10px; left: 10px;
-        background-color: #2196F3; /* Clean Blue for offers */
-        color: white;
-        font-size: 0.7em; font-weight: bold; padding: 4px 8px; border-radius: 6px;
+        position: absolute; top: 12px; left: 12px;
+        background-color: #3B82F6; color: white;
+        font-size: 0.7em; font-weight: 700; padding: 4px 10px; border-radius: 20px;
+        box-shadow: 0 4px 10px rgba(59, 130, 246, 0.3);
     }
     
-    .product-name { font-weight: 600; color: #333; font-size: 0.95em; height: 42px; overflow: hidden; line-height: 1.3; }
+    .product-name { font-weight: 600; color: #374151; font-size: 0.95em; height: 42px; overflow: hidden; line-height: 1.4; }
     
-    /* Primary Action Buttons */
-    .stButton>button { background-color: #0c831f; color: white !important; border-radius: 8px; font-weight: 700; border: none; width: 100%; padding: 10px 0; }
-    .stButton>button:hover { background-color: #0a6b19; }
-    .stButton>button:active { transform: scale(0.98); }
+    /* Premium Action Buttons */
+    .stButton>button { 
+        background-color: #10B981; /* Premium Zepto/Blinkit Green */
+        color: white !important; 
+        border-radius: 12px; 
+        font-weight: 700; 
+        border: none; 
+        width: 100%; 
+        padding: 12px 0; 
+        transition: all 0.2s;
+    }
+    .stButton>button:hover { background-color: #059669; box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3); }
+    .stButton>button:active { transform: scale(0.97); }
     
-    /* Navigation Link styling */
-    .jump-link { display: block; text-align: center; margin-bottom: 20px; font-weight: 600; color: #8b0000; text-decoration: none; background: #fff; padding: 10px; border-radius: 8px; border: 1px solid #ffebee; }
+    /* Jump to Cart Floating Pill */
+    .jump-pill {
+        display: block; text-align: center; margin: -10px auto 25px auto;
+        font-weight: 700; color: #7f1d1d; text-decoration: none;
+        background: #FEF2F2; padding: 12px 24px; border-radius: 30px;
+        width: fit-content; border: 1px solid #FCA5A5;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+    }
     </style>
 """, unsafe_allow_html=True)
 
 # --- Session State ---
 if 'cart' not in st.session_state: st.session_state.cart = []
 if 'active_section' not in st.session_state: st.session_state.active_section = "Home"
-if 'chat_history' not in st.session_state: st.session_state.chat_history = []
 
 def change_section(section_name): st.session_state.active_section = section_name
 
@@ -83,33 +102,34 @@ def add_to_cart(item):
     st.toast(f"Added {item['name']} to cart! 🛒")
 
 # ==========================================
-#   INVENTORY DATA
+#   PREMIUM INVENTORY (High-Res Amazon URLs)
 # ==========================================
 categories = {
-    "Dairy & Milk": "https://images.unsplash.com/photo-1628088062854-d1870b4553da?w=400",
-    "Snacks & Namkeen": "https://images.unsplash.com/photo-1599490659213-e2b9527bd087?w=400",
-    "Cold Drinks": "https://images.unsplash.com/photo-1622483767028-3f66f32aef97?w=400",
-    "Pulses & Dal": "https://images.unsplash.com/photo-1585942423984-63f25ceb22bd?w=400",
-    "Baby Care": "https://images.unsplash.com/photo-1555252333-9f8e92e65df9?w=400"
+    "Dairy & Milk": "https://images.unsplash.com/photo-1563636619-e9143da7973b?w=400&q=80", # Clean milk splash
+    "Snacks & Namkeen": "https://images.unsplash.com/photo-1600137583648-522167d45749?w=400&q=80", # Premium snack bowl
+    "Cold Drinks": "https://images.unsplash.com/photo-1622483767028-3f66f32aef97?w=400&q=80", # Sleek fridge drinks
+    "Pulses & Dal": "https://images.unsplash.com/photo-1585942423984-63f25ceb22bd?w=400&q=80", # Premium lentils
+    "Baby Care": "https://images.unsplash.com/photo-1519689680058-324335c77eba?w=400&q=80" # Clean baby aesthetic
 }
 
 products = [
-    {"id": 1, "name": "Amul Taaza Toned Milk (500ml)", "mrp": 27, "price": 27, "category": "Dairy & Milk", "img_url": "https://www.bigbasket.com/media/uploads/p/l/104618_7-amul-taaza-toned-milk.jpg"},
-    {"id": 2, "name": "Amul Gold Full Cream (500ml)", "mrp": 33, "price": 33, "category": "Dairy & Milk", "img_url": "https://www.bigbasket.com/media/uploads/p/l/1222474_1-amul-gold-homogenised-standardised-milk.jpg"},
-    {"id": 3, "name": "Amul Cow Milk (500ml)", "mrp": 28, "price": 28, "category": "Dairy & Milk", "img_url": "https://www.bigbasket.com/media/uploads/p/l/40005030_2-amul-cow-milk.jpg"},
-    {"id": 4, "name": "Amul Buffalo Milk (500ml)", "mrp": 35, "price": 35, "category": "Dairy & Milk", "img_url": "https://www.bigbasket.com/media/uploads/p/l/40202165_3-amul-buffalo-milk.jpg"},
-    {"id": 5, "name": "Haldiram's Bhujia Sev (400g)", "mrp": 110, "price": 99, "category": "Snacks & Namkeen", "img_url": "https://www.bigbasket.com/media/uploads/p/l/264491_5-haldirams-namkeen-bhujia-sev.jpg"},
-    {"id": 6, "name": "Lay's India's Magic Masala", "mrp": 20, "price": 18, "category": "Snacks & Namkeen", "img_url": "https://www.bigbasket.com/media/uploads/p/l/293667_13-lays-potato-chips-indias-magic-masala.jpg"},
-    {"id": 7, "name": "Kurkure Masala Munch (90g)", "mrp": 20, "price": 18, "category": "Snacks & Namkeen", "img_url": "https://www.bigbasket.com/media/uploads/p/l/294297_15-kurkure-namkeen-masala-munch.jpg"},
-    {"id": 8, "name": "Thums Up Soft Drink (750ml)", "mrp": 45, "price": 40, "category": "Cold Drinks", "img_url": "https://www.bigbasket.com/media/uploads/p/l/251023_8-thums-up-soft-drink.jpg"},
-    {"id": 9, "name": "Frooti Mango Drink (1.2L)", "mrp": 70, "price": 60, "category": "Cold Drinks", "img_url": "https://www.bigbasket.com/media/uploads/p/l/265819_8-frooti-mango-drink.jpg"},
-    {"id": 10, "name": "Sprite Clear (750ml)", "mrp": 45, "price": 40, "category": "Cold Drinks", "img_url": "https://www.bigbasket.com/media/uploads/p/l/251014_11-sprite-soft-drink-lime-flavoured.jpg"},
-    {"id": 11, "name": "Tata Sampann Toor Dal (1kg)", "mrp": 215, "price": 185, "category": "Pulses & Dal", "img_url": "https://www.bigbasket.com/media/uploads/p/l/40000291_9-tata-sampann-unpolished-toor-dal-arhar-dal.jpg"},
-    {"id": 12, "name": "Rajdhani Moong Dal (500g)", "mrp": 85, "price": 75, "category": "Pulses & Dal", "img_url": "https://www.bigbasket.com/media/uploads/p/l/40058866_3-rajdhani-moong-dal-yellow.jpg"},
-    {"id": 13, "name": "Huggies Wonder Pants (M, 30s)", "mrp": 499, "price": 399, "category": "Baby Care", "img_url": "https://www.bigbasket.com/media/uploads/p/l/40131014_8-huggies-wonder-pants-diapers-medium-m.jpg"}
+    # Dairy
+    {"id": 1, "name": "Amul Taaza Toned Milk (500ml)", "mrp": 27, "price": 27, "category": "Dairy & Milk", "img_url": "https://m.media-amazon.com/images/I/61k1qHwA2bL._SX679_.jpg"},
+    {"id": 2, "name": "Amul Gold Full Cream (500ml)", "mrp": 33, "price": 33, "category": "Dairy & Milk", "img_url": "https://m.media-amazon.com/images/I/61-d7+A85hL._SX679_.jpg"},
+    # Snacks
+    {"id": 5, "name": "Haldiram's Bhujia Sev (400g)", "mrp": 110, "price": 99, "category": "Snacks & Namkeen", "img_url": "https://m.media-amazon.com/images/I/71YV6H+d+4L._SX679_.jpg"},
+    {"id": 6, "name": "Lay's India's Magic Masala", "mrp": 20, "price": 18, "category": "Snacks & Namkeen", "img_url": "https://m.media-amazon.com/images/I/61XzQ-h2XoL._SX679_.jpg"},
+    {"id": 7, "name": "Kurkure Masala Munch (90g)", "mrp": 20, "price": 18, "category": "Snacks & Namkeen", "img_url": "https://m.media-amazon.com/images/I/71L5IytM1PL._SX679_.jpg"},
+    # Drinks
+    {"id": 8, "name": "Thums Up Soft Drink (750ml)", "mrp": 45, "price": 40, "category": "Cold Drinks", "img_url": "https://m.media-amazon.com/images/I/615a9v+ZkcL._SX679_.jpg"},
+    {"id": 9, "name": "Sprite Clear Lime (750ml)", "mrp": 45, "price": 40, "category": "Cold Drinks", "img_url": "https://m.media-amazon.com/images/I/51bVwzL3jUL._SX679_.jpg"},
+    # Pulses
+    {"id": 11, "name": "Tata Sampann Toor Dal (1kg)", "mrp": 215, "price": 185, "category": "Pulses & Dal", "img_url": "https://m.media-amazon.com/images/I/61tM0U0s3vL._SX679_.jpg"},
+    # Baby
+    {"id": 13, "name": "Huggies Wonder Pants (M, 30s)", "mrp": 499, "price": 399, "category": "Baby Care", "img_url": "https://m.media-amazon.com/images/I/61x0YQjJvYL._SX679_.jpg"}
 ]
 
-# --- Sidebar (Hidden by default) ---
+# --- Sidebar ---
 st.sidebar.markdown("### 🏬 Store Management")
 app_mode = st.sidebar.radio("Interface", ["📱 Storefront", "💻 Dashboard"])
 
@@ -118,20 +138,20 @@ app_mode = st.sidebar.radio("Interface", ["📱 Storefront", "💻 Dashboard"])
 # ==========================================
 if app_mode == "📱 Storefront":
     
-    # 1. The New Premium Top Banner
+    # Premium Top Banner
     st.markdown("""
         <div class="top-banner">
             <h1>Aggarwal Store</h1>
-            <p>📍 Phase 3 • Delivery in 10 mins</p>
+            <p>⚡ Superfast Delivery in Phase 3</p>
         </div>
     """, unsafe_allow_html=True)
 
-    # 2. Clean Jump-to-Cart Button
-    st.markdown("<a href='#your-cart' class='jump-link'>🛒 View Cart & Checkout</a>", unsafe_allow_html=True)
+    # Pill-shaped jump link
+    st.markdown("<a href='#your-cart' class='jump-pill'>🛒 View Cart & Checkout</a>", unsafe_allow_html=True)
 
     # --- VIEW 1: HOME (CATEGORY GRID) ---
     if st.session_state.active_section == "Home":
-        st.subheader("Explore Categories")
+        st.markdown("<h3 style='color:#111827; margin-bottom:15px; font-weight:700;'>Shop by Category</h3>", unsafe_allow_html=True)
         c1, c2 = st.columns(2)
         cat_names = list(categories.keys())
         
@@ -141,15 +161,15 @@ if app_mode == "📱 Storefront":
                 st.markdown(f"""
                     <div class="cat-card">
                         <img src="{categories[cat]}" class="cat-img"/>
-                        <h4 style="margin: 10px 0 5px 0; color: #333;">{cat}</h4>
+                        <div class="cat-title">{cat}</div>
                     </div>
                 """, unsafe_allow_html=True)
-                st.button(f"Shop", key=f"btn_{cat}", on_click=change_section, args=(cat,), use_container_width=True)
+                st.button(f"Explore", key=f"btn_{cat}", on_click=change_section, args=(cat,), use_container_width=True)
 
     # --- VIEW 2: INSIDE A SPECIFIC SECTION ---
     else:
-        st.button("← Back to Home", on_click=change_section, args=("Home",))
-        st.subheader(f"🛒 {st.session_state.active_section}")
+        st.button("← Back to Categories", on_click=change_section, args=("Home",))
+        st.markdown(f"<h3 style='color:#111827; margin: 15px 0; font-weight:800;'>{st.session_state.active_section}</h3>", unsafe_allow_html=True)
         
         section_products = [p for p in products if p['category'] == st.session_state.active_section]
         
@@ -178,8 +198,8 @@ if app_mode == "📱 Storefront":
     # --- MOBILE BOTTOM STACK: CART WITH SAVINGS ---
     st.markdown("<div id='your-cart'></div>", unsafe_allow_html=True)
     
-    st.markdown("### 🛒 Your Cart")
-    with st.container(border=True):
+    st.markdown("<h3 style='color:#111827; font-weight:800;'>🛒 Order Summary</h3>", unsafe_allow_html=True)
+    with st.container():
         if not st.session_state.cart:
             st.info("Your cart is empty. Start shopping!")
         else:
@@ -189,7 +209,7 @@ if app_mode == "📱 Storefront":
             cart_summary['total_mrp'] = cart_summary['mrp'] * cart_summary['qty']
             
             for _, row in cart_summary.iterrows():
-                st.write(f"**{row['qty']}x** {row['name'][:20]}... : **₹{row['total_price']}**")
+                st.markdown(f"<div style='font-size:1.05em; margin-bottom:8px;'><b>{row['qty']}x</b> {row['name'][:22]}... <span style='float:right; font-weight:800;'>₹{row['total_price']}</span></div>", unsafe_allow_html=True)
             
             subtotal_price = cart_summary['total_price'].sum()
             subtotal_mrp = cart_summary['total_mrp'].sum()
@@ -197,33 +217,25 @@ if app_mode == "📱 Storefront":
             delivery_fee = 0 if subtotal_price >= 250 else 30
             
             st.divider()
-            c_bill1, c_bill2 = st.columns([3, 1])
-            c_bill1.write("Total MRP:")
-            c_bill2.write(f"₹{subtotal_mrp}")
-            
-            c_bill1.write("Store Discount:")
-            c_bill2.markdown(f"<span style='color:#0c831f; font-weight:bold;'>-₹{total_savings}</span>", unsafe_allow_html=True)
+            st.markdown(f"<div style='display:flex; justify-content:space-between; margin-bottom:8px;'><span style='color:#6B7280;'>Total MRP</span><span>₹{subtotal_mrp}</span></div>", unsafe_allow_html=True)
+            st.markdown(f"<div style='display:flex; justify-content:space-between; margin-bottom:8px;'><span style='color:#6B7280;'>Store Discount</span><span style='color:#10B981; font-weight:700;'>-₹{total_savings}</span></div>", unsafe_allow_html=True)
             
             if delivery_fee == 0:
-                c_bill1.write("Delivery Fee:")
-                c_bill2.markdown("<span style='color:#0c831f; font-weight:bold;'>FREE</span>", unsafe_allow_html=True)
-                st.success("🚚 FREE Delivery Applied!")
+                st.markdown(f"<div style='display:flex; justify-content:space-between; margin-bottom:8px;'><span style='color:#6B7280;'>Delivery Fee</span><span style='color:#10B981; font-weight:700;'>FREE</span></div>", unsafe_allow_html=True)
             else:
-                c_bill1.write("Delivery Fee:")
-                c_bill2.write(f"₹{delivery_fee}")
-                st.warning(f"Add ₹{250-subtotal_price} more for free delivery")
+                st.markdown(f"<div style='display:flex; justify-content:space-between; margin-bottom:8px;'><span style='color:#6B7280;'>Delivery Fee</span><span>₹{delivery_fee}</span></div>", unsafe_allow_html=True)
+                st.caption(f"Add ₹{250-subtotal_price} more for free delivery")
             
             st.divider()
-            st.markdown(f"<h3 style='color:#111; margin:0;'>To Pay: ₹{subtotal_price + delivery_fee}</h3>", unsafe_allow_html=True)
+            st.markdown(f"<h2 style='color:#111827; text-align:center; margin:0;'>To Pay: ₹{subtotal_price + delivery_fee}</h2>", unsafe_allow_html=True)
             if total_savings > 0:
-                st.markdown(f"<p style='color:#0c831f; font-weight:bold; margin-top:5px;'>🎉 You save ₹{total_savings} on this order!</p>", unsafe_allow_html=True)
+                st.markdown(f"<div style='text-align:center; color:#10B981; font-weight:700; margin: 10px 0 20px 0; background:#D1FAE5; padding:8px; border-radius:8px;'>🎉 You save ₹{total_savings} on this order!</div>", unsafe_allow_html=True)
             
-            st.button("Checkout & Pay", type="primary", use_container_width=True)
+            st.button("Proceed to Pay", type="primary", use_container_width=True)
 
 # ==========================================
 #          OWNER DASHBOARD VIEW (Unchanged)
 # ==========================================
 elif app_mode == "💻 Dashboard":
     st.title("Owner Dashboard")
-    # ... Dashboard logic remains identical
-    st.info("Dashboard active. Switch to 'Storefront' to see the newly updated UI.")
+    st.info("Dashboard active. Switch to 'Storefront' to see the newly updated Premium UI.")
