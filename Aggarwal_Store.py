@@ -18,15 +18,22 @@ try:
     inject_global_css()
 except ModuleNotFoundError:
     # Fallback CSS if components/ui.py is missing
-    st.markdown("""
-        <style>
-            @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap');
-            html, body, [class*="css"] { font-family: 'Inter', sans-serif; }
-            #MainMenu {visibility: hidden;} footer {visibility: hidden;} header {visibility: hidden;}
-            [data-testid="stSidebar"] { background-color: #0F172A; color: white;}
-            .stButton>button { background-color: #0C831F !important; color: white !important; font-weight: bold; width: 100%; border-radius: 8px;}
-        </style>
-    """, unsafe_allow_html=True)
+   st.markdown("""
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap');
+        html, body, [class*="css"] { font-family: 'Inter', sans-serif; }
+        
+        /* CORRECTED: Hide only the developer toolbar and footer, KEEP the header for navigation */
+        [data-testid="stToolbar"] {visibility: hidden !important;}
+        footer {visibility: hidden !important;}
+        
+        /* Sidebar styling */
+        [data-testid="stSidebar"] { background-color: #0F172A; color: white;}
+        
+        /* Blinkit Button styling */
+        .stButton>button { background-color: #0C831F !important; color: white !important; font-weight: bold; width: 100%; border-radius: 8px;}
+    </style>
+""", unsafe_allow_html=True)
 
 # ── 2. Mock Database for Presentation ───────────────────────────────────────
 # In production, this will be replaced by a Supabase database query.
